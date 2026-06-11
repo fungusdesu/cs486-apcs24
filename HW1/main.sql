@@ -1,3 +1,4 @@
+SET NOEXEC ON
 CREATE DATABASE University
 GO
 
@@ -209,7 +210,9 @@ INSERT INTO GradeReport VALUES(2, 'ST009', 62, 'F');
 INSERT INTO GradeReport VALUES(2, 'ST010', 88, 'B');
 GO
 
+SET NOEXEC OFF
+USE University
 DECLARE @sqlText VARCHAR(MAX)
 SET @sqlText = ''
 SELECT @sqlText = @sqlText + ' SELECT * FROM ' + QUOTENAME(name) + CHAR(13) FROM sys.tables
-EXEC(@sqlText)
+EXEC(@sqlText) 
