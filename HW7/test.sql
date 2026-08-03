@@ -20,14 +20,19 @@ RETURN (
 	)
 	SELECT *
 	FROM CTE_PrereqInduction
+	UNION
+	SELECT @course_id
 )
 GO
 
 CREATE OR ALTER TRIGGER trg_NoCircularPrerequisites
 ON Prerequisite
-INSTEAD OF INSERT, UPDATE
+AFTER INSERT, UPDATE
 AS
 BEGIN
+	SELECT * FROM inserted
+	SELECT * FROM Prerequisite
+
 	IF EXISTS (
 		SELECT 1
 		FROM inserted i
@@ -36,6 +41,7 @@ BEGIN
 	BEGIN;
 		THROW 51000, 'There must be no circular prerequisites', 1
 	END;
+	ELSE INSERT INTO Prerequisite SELECT * FROM inserted
 END
 GO
 

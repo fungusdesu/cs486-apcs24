@@ -164,5 +164,6 @@ BEGIN
 	BEGIN;
 		THROW 51000, 'There must be no circular prerequisites', 1
 	END;
+	ELSE INSERT INTO Prerequisite SELECT * FROM inserted
 END
 GO
